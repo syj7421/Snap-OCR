@@ -1,0 +1,17 @@
+altgraph==0.17.4
+EasyProcess==1.1
+entrypoint2==1.1
+fontawesome-free==5.15.4
+mss==9.0.1
+packaging==24.1
+pefile==2023.2.7
+pillow==10.3.0
+pyinstaller==6.8.0
+pyinstaller-hooks-contrib==2024.7
+pyperclip==1.9.0
+pyscreenshot==3.1
+pytesseract==0.3.10
+pywin32-ctypes==0.2.2
+setuptools==70.1.1
+simpleicons==7.21.0
+-e git+https://github.com/syj7421/snap-ocr.git@92e743a0daa36892f384590709f5d51818fa4c69#egg=snap_ocr
