@@ -13,7 +13,7 @@ class SnippingTool:
 
     def create_widgets(self):
         style = ttk.Style()
-        style.configure("TButton", font=("Segoe UI", 12), padding=10)
+        style.configure("TButton", font=("Segoe UI", 14), padding=10)
 
         header_frame = ttk.Frame(self.root)
         header_frame.pack(pady=10)
@@ -21,10 +21,14 @@ class SnippingTool:
         button_frame = ttk.Frame(self.root)
         button_frame.pack(pady=20)
 
-        self.new_button = ttk.Button(button_frame, text="New", command=self.start_snip)
+        # Create custom styles for the buttons
+        style.configure("New.TButton", font=("Segoe UI", 16))
+        style.configure("Cancel.TButton", font=("Segoe UI", 14))
+
+        self.new_button = ttk.Button(button_frame, text=" ✂ New", style="New.TButton", command=self.start_snip)
         self.new_button.pack(side="left", padx=20)
 
-        self.cancel_button = ttk.Button(button_frame, text="Cancel", command=self.root.quit)
+        self.cancel_button = ttk.Button(button_frame, text=" ❌ Cancel", style="Cancel.TButton", command=self.root.quit)
         self.cancel_button.pack(side="right", padx=20)
 
     def start_snip(self):
@@ -41,5 +45,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = SnippingTool(root)
     root.mainloop()
-
-
