@@ -14,10 +14,13 @@ jobs:
         include:
           - os: ubuntu-latest
             build_command: pyinstaller --onefile main.py
+            artifact_name: ubuntu-Snap-OCR-executable
           - os: macos-latest
             build_command: python setup.py py2app
+            artifact_name: macos-Snap-OCR-executable
           - os: windows-latest
             build_command: pyinstaller --onefile main.py
+            artifact_name: windows-Snap-OCR-executable
 
     steps:
     - name: Checkout code
@@ -39,18 +42,28 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ matrix.os }}-Snap-OCR-executable
+        name: ${{ matrix.artifact_name }}
         path: dist/*
 
   release:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            artifact_name: ubuntu-Snap-OCR-executable
+          - os: macos-latest
+            artifact_name: macos-Snap-OCR-executable
+          - os: windows-latest
+            artifact_name: windows-Snap-OCR-executable
+
     steps:
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
-        name: ${{ matrix.os }}-Snap-OCR-executable
-        path: ./dist
+        name: ${{ matrix.artifact_name }}
 
     - name: Create Release
       id: create_release
@@ -70,5 +83,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./dist/*
-        asset_name: ${{ matrix.os }}-Snap-OCR-executable
+        asset_name: ${{ matrix.artifact_name }}
         asset_content_type: application/octet-stream
