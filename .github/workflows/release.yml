@@ -33,11 +33,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install pyinstaller py2app
 
+    - name: List contents of project directory before build
+      run: ls -R
+
     - name: Build executable
       run: ${{ matrix.build_command }}
 
-    - name: List contents of dist directory
-      run: ls dist
+    - name: List contents of dist directory after build
+      run: ls -R dist
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
@@ -49,14 +52,16 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Create directories for artifacts
+      run: |
+        mkdir -p ./macos-Snap-OCR-executable
+        mkdir -p ./windows-Snap-OCR-executable
+
     - name: Download macOS artifacts
       uses: actions/download-artifact@v2
       with:
         name: macos-Snap-OCR-executable
         path: ./macos-Snap-OCR-executable
-
-    - name: List contents of macOS artifact directory
-      run: ls ./macos-Snap-OCR-executable
 
     - name: Download Windows artifacts
       uses: actions/download-artifact@v2
@@ -64,8 +69,11 @@ jobs:
         name: windows-Snap-OCR-executable
         path: ./windows-Snap-OCR-executable
 
+    - name: List contents of macOS artifact directory
+      run: ls -R ./macos-Snap-OCR-executable
+
     - name: List contents of Windows artifact directory
-      run: ls ./windows-Snap-OCR-executable
+      run: ls -R ./windows-Snap-OCR-executable
 
     - name: Create Release
       id: create_release
