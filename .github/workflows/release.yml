@@ -49,19 +49,19 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Download artifacts
+    - name: Download Ubuntu artifacts
       uses: actions/download-artifact@v2
       with:
         name: ubuntu-Snap-OCR-executable
         path: ./ubuntu-Snap-OCR-executable
 
-    - name: Download artifacts (macOS)
+    - name: Download macOS artifacts
       uses: actions/download-artifact@v2
       with:
         name: macos-Snap-OCR-executable
         path: ./macos-Snap-OCR-executable
 
-    - name: Download artifacts (Windows)
+    - name: Download Windows artifacts
       uses: actions/download-artifact@v2
       with:
         name: windows-Snap-OCR-executable
@@ -78,7 +78,7 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Upload Release Asset (Ubuntu)
+    - name: Upload Ubuntu Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
@@ -88,7 +88,7 @@ jobs:
         asset_name: ubuntu-Snap-OCR-executable
         asset_content_type: application/octet-stream
 
-    - name: Upload Release Asset (macOS)
+    - name: Upload macOS Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
@@ -98,7 +98,7 @@ jobs:
         asset_name: macos-Snap-OCR-executable
         asset_content_type: application/octet-stream
 
-    - name: Upload Release Asset (Windows)
+    - name: Upload Windows Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
