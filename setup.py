@@ -4,7 +4,6 @@ from setuptools import setup
 APP = ['main.py']
 OPTIONS = {
     'argv_emulation': True,
-    'iconfile': 'app_icon.icns', 
     'plist': {
         'CFBundleName': 'Snap-OCR',
         'CFBundleShortVersionString': '0.1.0',
