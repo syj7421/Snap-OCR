@@ -48,22 +48,24 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        include:
-          - os: ubuntu-latest
-            artifact_name: ubuntu-Snap-OCR-executable
-          - os: macos-latest
-            artifact_name: macos-Snap-OCR-executable
-          - os: windows-latest
-            artifact_name: windows-Snap-OCR-executable
-
     steps:
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
-        name: ${{ matrix.artifact_name }}
+        name: ubuntu-Snap-OCR-executable
+        path: ./ubuntu-Snap-OCR-executable
+
+    - name: Download artifacts (macOS)
+      uses: actions/download-artifact@v2
+      with:
+        name: macos-Snap-OCR-executable
+        path: ./macos-Snap-OCR-executable
+
+    - name: Download artifacts (Windows)
+      uses: actions/download-artifact@v2
+      with:
+        name: windows-Snap-OCR-executable
+        path: ./windows-Snap-OCR-executable
 
     - name: Create Release
       id: create_release
@@ -76,12 +78,32 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Upload Release Asset
+    - name: Upload Release Asset (Ubuntu)
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/*
-        asset_name: ${{ matrix.artifact_name }}
+        asset_path: ./ubuntu-Snap-OCR-executable/*
+        asset_name: ubuntu-Snap-OCR-executable
+        asset_content_type: application/octet-stream
+
+    - name: Upload Release Asset (macOS)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./macos-Snap-OCR-executable/*
+        asset_name: macos-Snap-OCR-executable
+        asset_content_type: application/octet-stream
+
+    - name: Upload Release Asset (Windows)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./windows-Snap-OCR-executable/*
+        asset_name: windows-Snap-OCR-executable
         asset_content_type: application/octet-stream
