@@ -36,6 +36,9 @@ jobs:
     - name: Build executable
       run: ${{ matrix.build_command }}
 
+    - name: List contents of dist directory
+      run: ls dist
+
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
@@ -52,11 +55,17 @@ jobs:
         name: macos-Snap-OCR-executable
         path: ./macos-Snap-OCR-executable
 
+    - name: List contents of macOS artifact directory
+      run: ls ./macos-Snap-OCR-executable
+
     - name: Download Windows artifacts
       uses: actions/download-artifact@v2
       with:
         name: windows-Snap-OCR-executable
         path: ./windows-Snap-OCR-executable
+
+    - name: List contents of Windows artifact directory
+      run: ls ./windows-Snap-OCR-executable
 
     - name: Create Release
       id: create_release
