@@ -39,7 +39,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ matrix.os }}-executable
+        name: ${{ matrix.os }}-Snap-OCR-executable
         path: dist/*
 
   release:
@@ -49,7 +49,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
-        name: ${{ matrix.os }}-executable
+        name: ${{ matrix.os }}-Snap-OCR-executable
         path: ./dist
 
     - name: Create Release
@@ -69,6 +69,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/*  # Ensure this path matches where your executables are stored
-        asset_name: ${{ matrix.os }}-executable  # Give a meaningful name to your artifacts
+        asset_path: ./dist/*
+        asset_name: ${{ matrix.os }}-Snap-OCR-executable
         asset_content_type: application/octet-stream
