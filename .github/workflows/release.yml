@@ -73,8 +73,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ github.ref_name }}  # Ensure the correct reference to the tag name
+        release_name: Release ${{ github.ref_name }}  # Correct reference
         draft: false
         prerelease: false
 
