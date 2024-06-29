@@ -10,11 +10,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [macos-latest, windows-latest]
         include:
-          - os: ubuntu-latest
-            build_command: pyinstaller --onefile main.py
-            artifact_name: ubuntu-Snap-OCR-executable
           - os: macos-latest
             build_command: python setup.py py2app
             artifact_name: macos-Snap-OCR-executable
@@ -49,23 +46,15 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Download Ubuntu artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: ubuntu-Snap-OCR-executable
-        path: ./ubuntu-Snap-OCR-executable
-
     - name: Download macOS artifacts
       uses: actions/download-artifact@v2
       with:
         name: macos-Snap-OCR-executable
-        path: ./macos-Snap-OCR-executable
 
     - name: Download Windows artifacts
       uses: actions/download-artifact@v2
       with:
         name: windows-Snap-OCR-executable
-        path: ./windows-Snap-OCR-executable
 
     - name: Create Release
       id: create_release
@@ -73,20 +62,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
-        tag_name: ${{ github.ref_name }}  # Ensure the correct reference to the tag name
-        release_name: Release ${{ github.ref_name }}  # Correct reference
+        tag_name: ${{ github.ref_name }}
+        release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-
-    - name: Upload Ubuntu Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ubuntu-Snap-OCR-executable/*
-        asset_name: ubuntu-Snap-OCR-executable
-        asset_content_type: application/octet-stream
 
     - name: Upload macOS Release Asset
       uses: actions/upload-release-asset@v1
@@ -94,7 +73,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./macos-Snap-OCR-executable/*
+        asset_path: macos-Snap-OCR-executable/*
         asset_name: macos-Snap-OCR-executable
         asset_content_type: application/octet-stream
 
@@ -104,6 +83,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./windows-Snap-OCR-executable/*
+        asset_path: windows-Snap-OCR-executable/*
         asset_name: windows-Snap-OCR-executable
         asset_content_type: application/octet-stream
